@@ -25,7 +25,7 @@ My notes on Vehicle Cybersecurity
 
 
 ## Standards and regulations
-![alt text](image.png)\
+![alt text](media/image.png)\
 Figure 1 – Standards and regulations
 
 ### Primary standards
@@ -57,7 +57,7 @@ threats and vulnerabilities that should be considered and defended against. This
 supplier must consider when developing their systems. Figure 4.3 provides a snapshot of the threats
 and vulnerabilities that should be in scope for the security analysis:
 
-![alt text](image-1.png)\
+![alt text](media/image-1.png)\
 Figure 2 – REG 155 Annex 5 cybersecurity threats and vulnerability types
 
 In addition to the threats and vulnerabilities to be considered, REG 155 provides a list of common
@@ -78,7 +78,7 @@ Building vehicles that are secure by design requires a cybersecurity-aware produ
 begins early in the concept and design stages and proceeds through production and post-production
 until a vehicle is decommissioned. Understanding the vehicle’s life cycle is an important prerequisite
 to understanding the scope of ISO/SAE 21434, so let’s walk through it:
-![alt text](image-2.png)\
+![alt text](media/image-2.png)\
 Figure 3 – Life cycle flow
 
 `ISO/SAE 21434` provides a comprehensive framework for addressing cybersecurity threats across
@@ -86,10 +86,10 @@ these life cycle stages, both through organizational-level actions and project-l
 equally applicable to automotive manufacturers and component suppliers who must collaborate to
 demonstrate that the vehicle has adequately addressed cybersecurity risks:
 
-![alt text](image-3.png)\
+![alt text](media/image-3.png)\
 Figure 4 - Process areas covered by ISO/SAE 21434
 
-![alt text](image-6.png)\
+![alt text](media/image-6.png)\
 Figure 5 Four-step process to performing a TARA\
 As shown in Figure 5, there are four main steps to performing the TARA in compliance with ISO/SAE 21434:
 
@@ -112,7 +112,7 @@ ASPICE defines a process reference model that provides a set of best practices t
 development of software across the various product life cycles. ASPICE divides the process areas into
 three main groups: primary life cycle processes, supporting life cycle processes, and organizational
 life cycle processes.
-![alt text](image-4.png)\
+![alt text](media/image-4.png)\
 Figure 5 - Cybersecurity-specific process areas within ASPICE
 
 
@@ -149,7 +149,7 @@ motor vehicle cybersecurity through the application of cybersecurity best practi
 are divided into two main categories: general cybersecurity best practices, which address process and
 management-related activities, and technical cybersecurity best practices, which address countermeasures
 applied at the vehicle and ECU level
-![alt text](image-5.png)\
+![alt text](media/image-5.png)\
 Figure 6 – Classification of best practices by NHTSA
 
 * Tip:
@@ -164,7 +164,7 @@ and improvement.
 
 
 ## OTA
-![alt text](image-7.png)
+![alt text](media/image-7.png)
 
 
 
@@ -198,7 +198,7 @@ SCIs.
 ### UDS
 #### Security access control via `UDS service 0x27`
 First, we will look at the original method of securing the diagnostic protocol through Security Access Service Identifier (0x27).
-![alt text](image-8.png)
+![alt text](media/image-8.png)
 
 #### Role-based access control via UDS service 0x29
 UDS service 0x29 was added to provide role-based access controls, giving OEMs more control
@@ -206,7 +206,7 @@ over how to assign diagnostic service privileges for different actors, such as s
 personnel, developers, or even owners. With this service, a PKI is used to issue certificates that specify
 the diagnostic abilities of each client. It is also possible to restrict the validity of that role through the
 certificate’s validity period:
-![alt text](image-9.png)\
+![alt text](media/image-9.png)\
 Figure 9 – Role based access controls through the use of digital certificates
 
 
