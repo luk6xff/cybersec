@@ -12,11 +12,16 @@ Figure 1 – [Anomalous Frame Time detection](https://www.plantuml.com/plantuml/
 * Pattern recognition – When considering a specific process or a specific attack, we expect to see a known pattern of messages (or lack thereof). An IDPS can be set to identify such patterns and alert accordingly.
 
 
+### Autosar integration
+![alt text](../media/automotive-cybersec-idps-can-autosar-integration.png)\
+Figure 2 – [IDPS autosar integration](https://www.plantuml.com/plantuml/uml/TL9BJpen4B_FfvXm-lyFOFJemR3kOjm4274L3-gXRklIkDjk-e0euRlRBTjO7f90PtwFcUcKiJP46TlKe3-vQ8aY3LBsGMnjxgGmSz8mJ1GdV_05_sPuUGLWkAaxPMKrfiaSywp0N1XMAMAu58ufLzomqbZ5i2XNh75u2Q0SH4Jbl8EaRMjUUla0YSOenoti3hGFZnElSUS9bygciI8uRujdh-nG5v-gtR11u-9pabcQJ3tV1IViFL5qGnJpYf2SRPCBtRBIJpMJr3hu7njL8qopx7_e7scsWEuJrPYaJxXaWag52IMjOQgluysE3UZUUUHUodejuncc_5qHzUNDEMsroxrlTsRqJF4rKs78VRQ_O_nAGoetOdZJlGguRyZ3xg4_0zxl6zmHeNxBqFr4khub_3OVAbwjZ2VZfLrZVyziKQ2MjUrGED24ik7IpjD7ho9Pv10jyaW9mH7mbuoLN7SrBt0gA_qM3HWquIy1OoQeRUeV)
+
 ## Online knowledge
 ### Articles/Blogs
 * [Argus ethernet protection](https://argus-sec.com/products/ethernet-protection/)
 * [Argus can protection](https://argus-sec.com/products/can-protection/)
 * [Argus can protection technical blog](https://argus-sec.com/blog/blog-post/what-oems-can-do-to-prevent-can-injection-car-theft/)
+* [Argus can ids implementation](https://argus-sec.com/blog/cyber-security-blog/argus-can-ids-production-grade-integration-now-takes-only-one-month-with-new-argus-can-ids-api-and-generic-cpu-architecture-support/)
 
 ### Implementations
 * [wolfsentry](https://github.com/wolfSSL/wolfsentry)
