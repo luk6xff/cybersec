@@ -16,3 +16,6 @@ How HTTPS (TLS) session work
 -> The final step would be to provide login credentials. The client uses the encrypted SSL/TLS session to send them to the server. The server receives the username and password and needs to confirm that they match.
 
 -> Following security guidelines, we expect the server to save a hashed version of the password after appending a random salt to it. This way, if the database were breached, the passwords would be challenging to recover.
+
+## TLS Overview
+* [TLS1.3](https://tls13.xargs.org/)
