@@ -1,0 +1,122 @@
+# **Software Ratcheting**
+
+
+**Software ratcheting** refers to a mechanism in cryptographic protocols that ensures security by **progressively updating cryptographic keys** in a way that **prevents the possibility of reverting to previous keys**. This "one-way" progression enhances the overall security of the system by limiting the potential impact of key compromises.
+
+### **Key Aspects of Software Ratcheting:**
+
+1. **Forward Secrecy:**
+   - **Definition:** Ensures that the compromise of a single key does not compromise past session keys.
+   - **Ratcheting Role:** By continuously updating keys, ratcheting ensures that even if a current key is compromised, previous communications remain secure.
+
+2. **Deniable Authentication:**
+   - **Definition:** Allows parties to authenticate messages without creating evidence that can be used to prove the authenticity of the messages to a third party.
+   - **Ratcheting Role:** The dynamic nature of keys makes it difficult to provide verifiable proof of communication, enhancing privacy.
+
+3. **Prevention of Replay Attacks:**
+   - **Definition:** Stops attackers from reusing intercepted messages.
+   - **Ratcheting Role:** Since keys are constantly changing, old messages encrypted with previous keys become invalid, rendering replayed messages useless.
+
+### **Common Implementations:**
+
+- **Double Ratchet Algorithm:**
+  - **Used In:** Secure messaging applications like **Signal** and **WhatsApp**.
+  - **Functionality:** Combines a Diffie-Hellman (DH) ratchet with a symmetric-key ratchet to provide both forward and **future secrecy**. Each message sent and received triggers an update to the encryption keys.
+
+- **Asynchronous Ratcheting:**
+  - **Functionality:** Allows parties to update keys independently, which is particularly useful in environments where devices may not always be online simultaneously.
+
+### **Benefits of Software Ratcheting:**
+
+- **Enhanced Security:** By continuously updating keys, the system minimizes the risk of long-term key compromises.
+- **Improved Privacy:** Ensures that even if some keys are exposed, past and future communications remain secure.
+- **Scalability:** Suitable for applications requiring secure, ongoing communication between multiple parties.
+
+### **Example Scenario:**
+
+Imagine two users, Alice and Bob, communicating through a secure messaging app that implements a ratcheting mechanism:
+
+1. **Initial Key Exchange:** Alice and Bob establish a shared secret using a Diffie-Hellman key exchange.
+2. **Message Encryption:** Each message they send is encrypted with a unique session key derived from the ratcheting process.
+3. **Key Update:** After each message, both Alice and Bob update their session keys using the ratchet, ensuring that the next message uses a new key.
+4. **Compromise Scenario:** If an attacker compromises one of the session keys, they can only decrypt messages encrypted with that specific key. Previous and future messages remain secure because of the updated keys.
+
+### **Conclusion:**
+
+**Software ratcheting** is a vital component in modern secure communication protocols, providing robust protection against various types of attacks by ensuring that cryptographic keys are continuously and securely updated. This mechanism is fundamental in maintaining the confidentiality and integrity of sensitive communications in today’s digital landscape.
+
+
+
+
+### **Double Ratchet Algorithm Sequence Diagram**
+
+```plantuml
+@startuml
+participant Alice
+participant Bob
+participant "DH Ratchet" as DH
+participant "Encryption Module" as ENC
+participant "Decryption Module" as DEC
+
+== Initial Setup ==
+Alice -> Bob : Exchange DH Public Keys
+Bob -> Alice : Exchange DH Public Keys
+Alice -> DH : Initialize shared secret
+Bob -> DH : Initialize shared secret
+
+== Message 1: Alice to Bob ==
+Alice -> DH : Generate new DH key pair
+Alice -> ENC : Encrypt Message with current keys
+Alice -> Bob : Send Encrypted Message + Alice's DH Public Key
+Bob -> DH : Perform DH Ratchet with Alice's new DH Public Key
+Bob -> DEC : Decrypt Message with updated keys
+
+== Message 2: Bob to Alice ==
+Bob -> DH : Generate new DH key pair
+Bob -> ENC : Encrypt Message with current keys
+Bob -> Alice : Send Encrypted Message + Bob's DH Public Key
+Alice -> DH : Perform DH Ratchet with Bob's new DH Public Key
+Alice -> DEC : Decrypt Message with updated keys
+
+== Message 3: Alice to Bob ==
+Alice -> DH : Generate new DH key pair
+Alice -> ENC : Encrypt Message with current keys
+Alice -> Bob : Send Encrypted Message + Alice's DH Public Key
+Bob -> DH : Perform DH Ratchet with Alice's new DH Public Key
+Bob -> DEC : Decrypt Message with updated keys
+
+@enduml
+```
+
+---
+
+### **Explanation of the Diagram**
+
+1. **Initial Setup:**
+   - **Alice and Bob** exchange their initial **Diffie-Hellman (DH) public keys** to establish a shared secret.
+   - Both parties initialize their **shared secret** using the DH exchange, which serves as the foundation for subsequent key derivations.
+
+2. **Message Exchange with Ratcheting:**
+   - **Each time a message is sent:**
+     - The sender (**Alice or Bob**) generates a **new DH key pair**.
+     - The sender **performs a DH ratchet** using the recipient's latest DH public key, updating the shared secret.
+     - **Encryption Module** encrypts the message using the updated keys derived from the ratcheted shared secret.
+     - The **encrypted message** along with the sender's **new DH public key** is sent to the recipient.
+     - The recipient **performs a DH ratchet** using the sender's new DH public key, updating their shared secret accordingly.
+     - **Decryption Module** decrypts the received message using the updated keys.
+
+3. **Continuous Key Updates:**
+   - This process ensures that **each message** is encrypted with a **unique set of keys**, providing **forward secrecy** (past messages remain secure even if current keys are compromised) and **future secrecy** (future messages remain secure even if current keys are compromised).
+
+4. **Modules Involved:**
+   - **DH Ratchet:** Handles the Diffie-Hellman key exchanges and updates the shared secret.
+   - **Encryption Module (ENC):** Encrypts outgoing messages using the current encryption keys.
+   - **Decryption Module (DEC):** Decrypts incoming messages using the current decryption keys.
+
+### **Benefits of the Double Ratchet Algorithm**
+
+- **Forward Secrecy:** Ensures that compromise of current keys does not affect the security of past communications.
+- **Future Secrecy:** Guarantees that even if current keys are compromised, future communications remain secure.
+- **Resistance to Key Compromise:** Continuous key updates minimize the window of opportunity for attackers to exploit compromised keys.
+
+---
