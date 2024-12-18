@@ -103,3 +103,14 @@ Logging in network devices is essential for detecting and investigating security
 - Preventing rogue DHCP servers: The attacker creates a spoofed DHCP server that can be later on used for assigning IPs to clients and launching MITM attacks. Mitigation measures to prevent such attacks include configuring static DHCP binding and ensuring no unknown devices are added to a network through network mapping tools. You can learn more about DHCP here.
 
 - Enabling IPv6: Unlike IPv4, IPv6 has built-in support of IPsec that can be used to secure network communication and provide confidentiality, integrity, and authenticity. Moreover, this will help in protection against MITM, eavesdropping, and tampering of packets in transit.
+
+
+## Network Monitoring Tools
+```markdown
+| Tool                              | Usage Description                                                                                                                                                      |
+|-----------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Nagios                            | A popular open-source software for monitoring systems, networks, and infrastructure. It provides real-time monitoring and alerting for various services and applications. |
+| SolarWinds Network Performance Monitor | A comprehensive network monitoring tool that provides real-time visibility into network performance and availability. It includes network mapping, automated network discovery, and customisable dashboards. |
+| PRTG                              | An all-in-one network monitoring tool that provides comprehensive performance and availability monitoring. It includes real-time traffic analysis, custom dashboards, and customisable alerts. |
+| Zabbix                            | A powerful open-source network monitoring tool that provides real-time network performance and availability monitoring. It includes features such as customisable dashboards, network mapping, and alerting. |
+```
