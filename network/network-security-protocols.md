@@ -128,3 +128,8 @@ With these steps, you have the basic tooling to create keys, encrypt/decrypt dat
   - Uses asymmetric keys for authentication (optional, but recommended).
   - Protects against man-in-the-middle attacks by verifying server host keys.
 
+
+
+
+## Presentation and Session Layers
+TODO
