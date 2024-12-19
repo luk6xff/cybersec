@@ -128,14 +128,3 @@ With these steps, you have the basic tooling to create keys, encrypt/decrypt dat
   - Uses asymmetric keys for authentication (optional, but recommended).
   - Protects against man-in-the-middle attacks by verifying server host keys.
 
----
-
-**In summary:**
-- Use **DNSSEC** to ensure domain name resolution integrity and authenticity.
-- Use **OpenPGP** (GnuPG) to securely exchange data by encrypting and signing content.
-- Use **SSH** for secure remote administration and data transfer.
-
-These tools form a solid foundation for a cybersecurity engineer to maintain the confidentiality, integrity, and authenticity of critical communications.
-```
-
-
