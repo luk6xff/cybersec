@@ -134,7 +134,7 @@ With these steps, you have the basic tooling to create keys, encrypt/decrypt dat
 ## Presentation and Session Layers
 PlantUML sequence diagrams to illustrate the workflows of SSL/TLS and SOCKS5 protocols.
 
-## SSL/TLS Handshake Sequence Diagram
+### SSL/TLS Handshake Sequence Diagram
 
 ```plantuml
 @startuml
@@ -187,7 +187,7 @@ end opt
 
 ---
 
-## SOCKS5 Protocol Sequence Diagram
+### SOCKS5 Protocol Sequence Diagram
 
 ```plantuml
 @startuml
@@ -234,3 +234,83 @@ SOCKS_Proxy -> ClientA: Forward Response
 **Summary:**
 - **SSL/TLS**: Establishes a secure, encrypted channel for communication. The handshake involves exchanging random values, selecting cipher suites, verifying certificates, and deriving session keys.
 - **SOCKS5**: Works as a low-level proxy. The client talks to the SOCKS5 proxy, which authenticates the client and then connects to the target host on the client’s behalf. This allows for flexible and secure routing of various protocols over one proxy.
+
+
+
+## Network Layer
+
+In traditional IPv4/IPv6 networking, the primary design focus was on availability and reachability rather than security. As a result, traffic flowing over the Internet is, by default, susceptible to eavesdropping, tampering, and spoofing. To mitigate these issues at the network layer, Internet Protocol Security (IPsec) emerged as a comprehensive framework to provide authentication, integrity, and confidentiality directly at the IP layer.
+
+### IPsec Overview
+
+**What is IPsec?**
+IPsec (Internet Protocol Security) is a suite of protocols and cryptographic mechanisms designed to secure IP communications by authenticating and/or encrypting each IP packet in a data stream. It operates at Layer 3 (Network Layer) of the OSI model, ensuring that security is transparent to applications and can protect all upper-layer protocols uniformly.
+
+**Core Components:**
+1. **Authentication Header (AH):**
+   - **Functionality:** Provides connectionless integrity and data origin authentication for IP packets.
+   - **Security Guarantees:** Authentication and integrity but **no confidentiality**.
+   - **Modes:**
+     - **Transport Mode:** Protects only the upper-layer protocols (e.g., TCP/UDP headers and payload). The original IP header remains in cleartext but is authenticated.
+     - **Tunnel Mode:** Wraps the entire original IP packet inside a new IP header. The original IP header, plus TCP/UDP headers and payload, are all authenticated.
+
+   **Technical Note:**
+   AH typically uses keyed-hash message authentication codes (HMAC) with hash functions like SHA-1 or SHA-2. It ensures that any alteration in the authenticated portions of the packet is detected. While AH ensures integrity and authenticity, the packet content remains readable by third parties.
+
+2. **Encapsulating Security Payload (ESP):**
+   - **Functionality:** Provides confidentiality, integrity, and authentication (when configured to do so) for IP packets. ESP can encrypt the packet’s payload and also ensure it hasn’t been modified in transit.
+   - **Security Guarantees:** Encryption (confidentiality), integrity, and data origin authentication.
+   - **Modes:**
+     - **Transport Mode:** Protects upper-layer protocols (TCP/UDP and payload). The original IP header is visible but authenticated and the payload is encrypted.
+     - **Tunnel Mode:** Encapsulates the entire original IP packet (including its IP header) within a new IP packet. This effectively hides the original source and destination addresses, allowing for Virtual Private Network (VPN) tunnels that mask internal topology details.
+
+   **Technical Note:**
+   ESP commonly uses symmetric encryption algorithms such as AES in GCM mode for authenticated encryption. The payload is encrypted, and integrity is ensured through combined mode AEAD algorithms or through an additional authentication field.
+
+3. **Security Association (SA):**
+   - **Functionality:** Defines the cryptographic parameters, including keys, algorithms, and lifetimes used by AH or ESP.
+   - **Establishment:** Often negotiated by the Internet Key Exchange (IKE) protocol (e.g., IKEv2). During this process, peers authenticate each other and agree on cryptographic primitives (ciphers, hashes) and generate keys.
+
+   **Technical Note:**
+   SAs are uni-directional. Two SAs (one for each direction) are typically established for bidirectional secure communication. Each SA is identified by a unique tuple called a Security Parameter Index (SPI), along with the destination IP address and the IPsec protocol (AH or ESP).
+
+### VPN Over IPsec
+
+**What is a VPN?**
+A Virtual Private Network (VPN) creates a secure, encrypted tunnel over an untrusted network (e.g., the Internet). By encapsulating and protecting IP packets, VPNs allow remote offices, mobile workers, and other entities to securely connect to internal corporate networks or interconnect multiple corporate sites over the public Internet.
+
+**IPsec for VPNs:**
+- **ESP Tunnel Mode:** Used to encapsulate the entire original IP packet, providing a secure tunnel between two gateways or between a host and a gateway. This mode can hide internal IP addressing schemes and protect all data passing through.
+- **Use Case:** Corporate office-to-office tunnels, remote access VPNs (when combined with client software and proper authentication). The internal IP packets remain encrypted and protected, preventing attackers from reading or modifying the data in transit.
+
+**Key Exchange & Authentication:**
+- IPsec VPNs frequently rely on IKE (Internet Key Exchange), specifically IKEv2, to securely exchange cryptographic parameters, authenticate peers (using pre-shared keys, digital certificates, or EAP methods), and establish the SAs.
+- Once the SAs are established, traffic flows securely according to the negotiated parameters.
+
+## Alternatives to IPsec-Based VPNs
+
+**SSL/TLS-Based VPNs:**
+- SSL (Secure Sockets Layer) and TLS (Transport Layer Security) operate at a higher layer (Transport Layer).
+- Protocols like OpenVPN use TLS over TCP or UDP to create secure tunnels without requiring kernel-level changes or IP stack modifications.
+- Advantages:
+  - Often easier to traverse NAT and firewalls due to running over standard ports like 443 (HTTPS).
+  - Flexible authentication and encryption options using well-established TLS libraries.
+
+**Deprecated/Legacy VPN Protocols:**
+- **PPTP (Point-to-Point Tunneling Protocol):**
+  - Relies on GRE (Generic Routing Encapsulation) and MS-CHAPv2 for authentication.
+  - Known vulnerabilities and weak encryption make it insecure by modern standards.
+- **L2TP (Layer 2 Tunneling Protocol)** combined with IPsec can be secure if configured properly, but on its own, L2TP does not provide encryption.
+
+### Summary of Technical Benefits
+
+- **At the Network Layer:** IPsec protects traffic irrespective of the application protocol, making it transparent to client/server applications.
+- **Secure Remote Access:** IPsec allows secure communication with corporate resources as if located on the same local network.
+- **Interoperability & Standards:** IPsec is an IETF standard, widely interoperable across different vendors’ equipment and software.
+- **Flexible Architectures:**
+  - Site-to-Site IPsec Tunnels: Connect branch offices to headquarters securely.
+  - Host-to-Gateway IPsec Tunnels: Secure remote user access.
+  - Full or Split-Tunneling configurations, where all or only certain traffic is protected.
+
+In essence, IPsec at the network layer combined with VPN architectures ensures that sensitive data can traverse insecure networks without exposing content, identities, or network topologies. Its heavy reliance on robust cryptographic suites and key management protocols (like IKE) ensures a high degree of security for modern enterprise deployments.
+```
