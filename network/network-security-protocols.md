@@ -132,4 +132,105 @@ With these steps, you have the basic tooling to create keys, encrypt/decrypt dat
 
 
 ## Presentation and Session Layers
-TODO
+PlantUML sequence diagrams to illustrate the workflows of SSL/TLS and SOCKS5 protocols.
+
+## SSL/TLS Handshake Sequence Diagram
+
+```plantuml
+@startuml
+autonumber
+
+title SSL/TLS Handshake
+
+participant Client
+participant Server
+participant CertificateAuthority as CA
+
+Client -> Server: ClientHello (TLS version, cipher suites, client random)
+Server -> Client: ServerHello (Chosen cipher, server random, server certificate)
+
+note right
+  The server sends its certificate, which includes its public key.
+  This certificate is signed by a CA that the client trusts.
+end note
+
+Client -> CA: Verify server certificate
+CA --> Client: Return validation result (Valid/Invalid)
+
+opt Certificate Valid
+  Client -> Server: Premaster secret (encrypted with server public key)
+  Server -> Server: Decrypt premaster secret with server private key
+
+  note right
+    Both parties derive the same symmetric session keys from
+    (client random, server random, premaster secret).
+    These keys are never sent over the wire.
+  end note
+
+  Client -> Server: Finished (encrypted with session key)
+  Server -> Client: Finished (encrypted with session key)
+
+  note right
+    Once both sides send "Finished" messages, the handshake is complete.
+    All subsequent communication is encrypted with the session keys.
+  end note
+end opt
+
+@enduml
+```
+
+**Explanation:**
+- The client and server exchange hello messages to agree on protocols and keys.
+- The server’s certificate is verified against the CA.
+- The client sends a premaster secret, from which both the client and server derive the same session key.
+- "Finished" messages confirm that future communication is protected by the derived key.
+
+---
+
+## SOCKS5 Protocol Sequence Diagram
+
+```plantuml
+@startuml
+autonumber
+
+title SOCKS5 Connection Establishment
+
+participant ClientA
+participant SOCKS_Proxy as "SOCKS5 Proxy"
+participant ClientB
+
+ClientA -> SOCKS_Proxy: Greeting (Version = 0x05, Authentication methods supported)
+SOCKS_Proxy -> ClientA: Chosen Authentication Method (e.g., No Auth)
+
+note right
+  If authentication is required, additional steps occur:
+  ClientA provides credentials, SOCKS_Proxy verifies them.
+end note
+
+ClientA -> SOCKS_Proxy: Connection Request (Target = ClientB IP:Port)
+SOCKS_Proxy -> ClientA: Connection Reply (Success/Failure)
+SOCKS_Proxy -> ClientB: Establish connection
+
+note right
+  The SOCKS5 proxy sets up a path between ClientA and ClientB.
+  It now forwards data bidirectionally.
+end note
+
+ClientA -> SOCKS_Proxy: Encrypted/App-layer Data
+SOCKS_Proxy -> ClientB: Forward Data
+ClientB -> SOCKS_Proxy: Response Data
+SOCKS_Proxy -> ClientA: Forward Response
+
+@enduml
+```
+
+**Explanation:**
+- ClientA negotiates authentication and connection parameters with the SOCKS5 proxy.
+- Once the proxy acknowledges and sets up a connection to ClientB, all traffic between ClientA and ClientB passes through the proxy.
+- SOCKS5 acts as a relay, potentially bypassing firewalls or censorship and concealing endpoint details.
+
+---
+
+**Summary:**
+- **SSL/TLS**: Establishes a secure, encrypted channel for communication. The handshake involves exchanging random values, selecting cipher suites, verifying certificates, and deriving session keys.
+- **SOCKS5**: Works as a low-level proxy. The client talks to the SOCKS5 proxy, which authenticates the client and then connects to the target host on the client’s behalf. This allows for flexible and secure routing of various protocols over one proxy.
