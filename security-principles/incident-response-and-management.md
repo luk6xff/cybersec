@@ -227,10 +227,33 @@ The final phase involves learning and improving from the incident response proce
 
 This phase ensures continuous improvement, better equipping the organization for future incidents.
 
----
+### Or Six Phases of Incident Response
+
+| Action        | Description                                                                                                                                    |
+|---------------|------------------------------------------------------------------------------------------------------------------------------------------------|
+| Preparation    | Ensuring resources and plans are in place to deal with potential security incidents.                                                           |
+| Identification | Confirming the threat and threat actor have been correctly identified.                                                                         |
+| Containment    | Containing the threat to prevent it from affecting other systems or users.                                                                     |
+| Eradication    | Removing the active threat from the environment.                                                                                               |
+| Recovery       | Reviewing the impacted systems thoroughly and returning to normal business operations.                                                         |
+| Lessons Learned | Understanding what can be improved to prevent future incidents. For example, if the cause was phishing, improve employee training on phishing recognition. |
+
 
 ### Summary
+A breach of security is known as an **incident**. Despite all rigorous threat models and secure system designs, incidents can occur. The actions taken to resolve and remediate the threat are known as **Incident Response (IR)**, a dedicated career path within cybersecurity.
+
+Incidents are classified based on urgency and impact:
+
+- **Urgency:** Determined by the type of attack.
+- **Impact:** Determined by the affected system and its effect on business operations.
+
+An incident is addressed by a **Computer Security Incident Response Team (CSIRT)**, a prearranged group of employees with technical knowledge of the systems and/or current incident.
+
 The NIST Incident Management Framework provides a structured approach to managing security incidents. By emphasizing preparation, clear detection and analysis, sequential response actions, and post-incident learning, organizations can effectively minimize damage and improve resilience against future threats.
+
+
+
+
 
 
 
