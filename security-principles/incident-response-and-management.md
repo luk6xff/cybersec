@@ -234,6 +234,89 @@ The NIST Incident Management Framework provides a structured approach to managin
 
 
 
+## Common Pitfalls in Incident Management
+
+While a robust incident response and management strategy is essential, organizations often encounter challenges that undermine their efforts. These common pitfalls can delay response times, exacerbate the impact, and increase organizational risk. Understanding and addressing these pitfalls is critical for improving overall incident management.
+
+---
+
+### 1. **Insufficient Hardening**
+This pitfall often arises even before an incident occurs due to prioritizing speed and profitability over security.
+
+- **Hardening Overview:** Hardening involves configuring systems to align with security best practices after deployment. When skipped, systems remain vulnerable, increasing the likelihood of incidents.
+- **Impact:** Skipping hardening results in more frequent incidents, any of which could cause significant damage if successful.
+- **Solution:**
+  - Adopt the **Shift Left** principle by integrating hardening during the development phase.
+  - Ensure post-deployment hardening is mandatory for all solutions.
+
+---
+
+### 2. **Insufficient Logging**
+Effective incident detection hinges on comprehensive logging, yet many organizations neglect this critical aspect.
+
+- **Issues:**
+  - Limited logging creates a "flying blind" scenario where incidents may go unnoticed.
+  - Cost constraints, such as SIEM ingestion fees or network charges for remote devices, often result in reduced logging.
+  - Local logs may have short retention periods or could be tampered with by threat actors.
+- **Impact:** Insufficient logging delays detection, obscures incident scope, and complicates investigations.
+- **Solution:**
+  - Prioritize critical log sources and optimize retention policies.
+  - Implement cost-effective methods for collecting remote logs.
+  - Regularly test logging configurations to ensure critical events are captured.
+
+---
+
+### 3. **Insufficient and Over-Alerting**
+Both insufficient and excessive alerts can hinder effective incident response.
+
+- **Insufficient Alerts:** Key threats may go unnoticed due to gaps in alert rules.
+- **Over-Alerting:** Excessive false positives can desensitize teams, leading to critical alerts being ignored ("cry wolf" effect).
+- **Impact:** Ineffective alert management slows detection and response, increasing the risk of undetected threats.
+- **Solution:**
+  - Perform **threat hunting** to refine alert rules and identify meaningful patterns.
+  - Optimize the signal-to-noise ratio of alerts to balance coverage and relevance.
+
+---
+
+### 4. **Insufficient Determination of Incident Scope**
+Understanding the scope of an incident is vital to effective response but is often underestimated or overestimated.
+
+- **Underestimation:** Leads to incomplete eradication of the threat actor.
+- **Overestimation:** Results in unnecessary disruptions to business operations.
+- **Impact:** Both scenarios can prolong the incident or cause excessive downtime.
+- **Solution:**
+  - Continuously train and prepare teams to improve scope assessment.
+  - Employ iterative processes during response to refine understanding over time.
+
+---
+
+### 5. **Insufficient Accountability**
+Lack of clear accountability during incident response often leads to inaction.
+
+- **Issues:** Teams may discuss actions but fail to execute them due to unclear responsibilities.
+- **Impact:** Delayed actions allow the incident to escalate, increasing damage.
+- **Solution:**
+  - Assign specific individuals to each action during the incident.
+  - Maintain detailed notes to track responsibilities and outcomes.
+  - Empower an **incident manager** to oversee accountability and progress.
+
+---
+
+### 6. **Insufficient Backups**
+Backups are often the last line of defense during catastrophic incidents, yet they are frequently inadequate.
+
+- **Issues:**
+  - Lack of comprehensive backup processes and policies.
+  - Inadequate isolation of backups, such as High Availability Disaster Recovery (HADR) setups that replicate ransomware.
+- **Impact:** Without secure backups, recovery from incidents like ransomware attacks becomes impossible.
+- **Solution:**
+  - Ensure offline and remote backups are maintained alongside HADR setups.
+  - Regularly test backups to confirm integrity and accessibility.
+  - Establish clear policies for creating, updating, and securing backups.
+
+
+
+
 ## References
 
 1. **NIST Special Publication 800-61 Rev. 2**: *Computer Security Incident Handling Guide*. National Institute of Standards and Technology.
