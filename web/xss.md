@@ -197,7 +197,7 @@ Blind XSS is similar to Stored XSS, but the attacker **cannot directly see** the
 - Can exfiltrate or manipulate sensitive data in private dashboards.
 
 **Testing Blind XSS:**
-1. Use a callback domain (e.g., [XSS Hunter](https://xsshunter.com/) or self-hosted solution) to record any requests triggered by your payload.
+1. Use a callback domain (e.g., [XSS Hunter](https://github.com/mandatoryprogrammer/xsshunter-express) or self-hosted solution) to record any requests triggered by your payload.
 2. Insert payloads into all fields that staff or other privileged users may eventually view.
 3. Wait and monitor the logs: if the staff interface loads your payload, you’ll see requests from the victim’s environment.
 
