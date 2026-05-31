@@ -1,75 +1,181 @@
-# CIA Triad
+# CIA Triad & Security Properties
 
+## The CIA Triad
 
-* **Confidentiality** ensures that only the intended persons or recipients can access the data.
+The three fundamental properties of information security:
 
-* **Integrity** aims to ensure that the data cannot be altered; moreover, we can detect any alteration if it occurs.
+| Property | Definition | Threat | Control Examples |
+|----------|-----------|--------|-----------------|
+| **Confidentiality** | Only authorized entities can access data | Unauthorized disclosure, data breach | Encryption, access control, data classification |
+| **Integrity** | Data cannot be altered without detection | Tampering, corruption, unauthorized modification | Hashing, digital signatures, checksums, version control |
+| **Availability** | Systems and data are accessible when needed | DoS, hardware failure, ransomware | Redundancy, backups, DDoS protection, failover |
 
-* **Availability** aims to ensure that the system or service is available when needed.
-
-
-
-
-```markdown
-## Let’s Consider the CIA Security Triad in the Case of Online Shopping
-
-**Confidentiality:**
-During online shopping, you expect your credit card number to be disclosed only to the entity that processes the payment. If you doubt that your credit card information will be disclosed to an untrusted party, you will most likely refrain from continuing with the transaction. Moreover, if a data breach results in the disclosure of personally identifiable information, including credit cards, the company will incur huge losses on multiple levels.
-
-**Integrity:**
-After filling out your order, if an intruder can alter the shipping address you have submitted, the package will be sent to someone else. Without data integrity, you might be very reluctant to place your order with this seller.
-
-**Availability:**
-To place your online order, you will either browse the store’s website or use its official app. If the service is unavailable, you won’t be able to browse the products or place an order. If you continue to face such technical issues, you might eventually give up and start looking for a different online store.
-
----
-
-## CIA in the Context of Patient Records and Related Systems
-
-**Confidentiality:**
-According to various laws in modern countries, healthcare providers must ensure and maintain the confidentiality of medical records. Consequently, healthcare providers can be held legally accountable if they illegally disclose their patients’ medical records.
-
-**Integrity:**
-If a patient record is accidentally or maliciously altered, it can lead to the wrong treatment being administered, which, in turn, can lead to a life-threatening situation. Hence, the system would be useless and potentially harmful without ensuring the integrity of medical records.
-
-**Availability:**
-When a patient visits a clinic to follow up on their medical condition, the system must be available. An unavailable system would mean that the medical practitioner cannot access the patient’s records and consequently won’t know if any current symptoms are related to the patient’s medical history. This situation makes the medical diagnosis more challenging and error-prone.
+```
+              Confidentiality
+                   /\
+                  /  \
+                 /    \
+                / CIA  \
+               /  Triad \
+              /──────────\
+             /            \
+            /              \
+     Integrity ────────── Availability
+```
 
 ---
 
-## Beyond the CIA Security Triad: Authenticity and Nonrepudiation
+## Extended Security Properties
 
-**Authenticity:**
-"Authentic" means not fraudulent or counterfeit. Authenticity is about ensuring that the document, file, or data is from the claimed source.
+### DAD Triad (Opposite/Threat Model)
+| CIA Property | Threat (DAD) | Attack Example |
+|-------------|-------------|----------------|
+| Confidentiality | **Disclosure** | Data breach, sniffing, side-channel |
+| Integrity | **Alteration** | MITM, SQL injection, firmware tampering |
+| Availability | **Destruction/Denial** | DDoS, ransomware, hardware destruction |
 
-**Nonrepudiation:**
-"Repudiate" means refusing to acknowledge the validity of something. Nonrepudiation ensures that the original source cannot deny that they are the source of a particular document, file, or data. This characteristic is indispensable in various domains, such as shopping, patient diagnosis, and banking.
+### Additional Properties
 
-These two requirements are closely related. The need to distinguish authentic files or orders from fake ones is indispensable. Moreover, ensuring that the other party cannot deny being the source is vital for many systems to be usable.
-
-In online shopping, depending on your business, you might tolerate attempting to deliver a t-shirt with cash-on-delivery and later learn that the recipient never placed such an order. However, no company can tolerate shipping 1000 cars only to discover that the order is fake.
-
-In the example of a shopping order, you want to confirm that the said customer indeed placed this order — that’s authenticity. Moreover, you want to ensure they cannot deny placing this order — that’s nonrepudiation.
-
-As a company, if you receive a shipment order of 1000 cars, you need to ensure the authenticity of this order; moreover, the source should not be able to deny placing such an order. Without authenticity and nonrepudiation, business cannot be conducted.
+| Property | Definition | Importance |
+|----------|-----------|------------|
+| **Authenticity** | Verify the claimed identity of entities/data | Prevents impersonation and forgery |
+| **Non-repudiation** | Entity cannot deny having performed an action | Critical for legal, financial, audit |
+| **Accountability** | Actions can be traced to responsible entity | Supports forensics and compliance |
+| **Reliability** | System performs consistently as intended | Operational safety (automotive, medical) |
 
 ---
 
 ## Parkerian Hexad
 
-In 1998, Donn Parker proposed the Parkerian Hexad, a set of six security elements. They are:
+Six security elements (Donn Parker, 1998):
 
-- Availability
-- Utility
-- Integrity
-- Authenticity
-- Confidentiality
-- Possession
+| Element | Description | Beyond CIA? |
+|---------|-------------|-------------|
+| **Confidentiality** | Protection from unauthorized disclosure | CIA core |
+| **Integrity** | Data is unaltered and accurate | CIA core |
+| **Availability** | Accessible when needed | CIA core |
+| **Possession/Control** | Physical control of data medium | Data on stolen USB (still encrypted) but you lost possession |
+| **Authenticity** | Data is genuine and from claimed source | Forged document with valid content |
+| **Utility** | Data is in usable form | Encrypted data without the key — available but not useful |
 
+---
 
-**Utility:**
-Utility focuses on the usefulness of the information. For instance, a user might have lost the decryption key to access a laptop with encrypted storage. Although the user still has the laptop with its disk(s) intact, they cannot access them. In other words, although the information is still available, it is in a form that is not useful, i.e., of no utility.
+## Security Models
 
-**Possession:**
-This security element requires that we protect the information from unauthorized taking, copying, or controlling. For instance, an adversary might take a backup drive, meaning we lose possession of the information as long as they have the drive. Alternatively, the adversary might succeed in encrypting our data using ransomware; this also leads to the loss of possession of the data.
+### Bell-LaPadula Model (Confidentiality)
+Military/government classification model:
+- **Simple Security Rule** (no read up): A subject cannot read data at a higher classification
+- **Star Property** (no write down): A subject cannot write data to a lower classification
+- Prevents information leaking from high to low classification
+
 ```
+TOP SECRET  ──────── Can read TS, write TS
+    ↑ no read up
+SECRET      ──────── Can read S, write S or TS
+    ↑ no read up         ↓ no write down blocked
+CONFIDENTIAL ─────── Can read C, write C or above
+    ↑ no read up
+UNCLASSIFIED ─────── Can only read/write U
+```
+
+### Biba Model (Integrity)
+Opposite of Bell-LaPadula — protects integrity:
+- **Simple Integrity Rule** (no read down): Don't read lower-integrity data
+- **Star Integrity Rule** (no write up): Don't write to higher-integrity level
+- Prevents corruption flowing from low-integrity to high-integrity
+
+### Clark-Wilson Model (Integrity, Commercial)
+- **Constrained Data Items (CDIs)**: Data requiring integrity protection
+- **Unconstrained Data Items (UDIs)**: Input data not yet validated
+- **Transformation Procedures (TPs)**: Only authorized programs can modify CDIs
+- **Integrity Verification Procedures (IVPs)**: Verify CDI consistency
+- Enforces well-formed transactions and separation of duties
+
+### Brewer-Nash Model (Chinese Wall)
+- Prevents conflicts of interest in consulting/advisory contexts
+- Once you access data from Company A, you cannot access competitor Company B's data
+- Dynamic access control based on access history
+
+---
+
+## Applying CIA to Different Domains
+
+### CIA in Automotive Cybersecurity
+
+| Component | Confidentiality | Integrity | Availability |
+|-----------|----------------|-----------|--------------|
+| **ECU firmware** | Prevent reverse engineering (IP) | Critical — tampered firmware = safety risk | Must boot and function reliably |
+| **CAN bus messages** | Some (battery SOC, user data) | **HIGHEST** — forged messages = safety | Bus must not be DoS'd |
+| **OTA updates** | Protect pre-release firmware | **HIGHEST** — ensure authentic update | Update service must be accessible |
+| **Diagnostic data** | PII (driver behavior) | Important for accurate diagnostics | Required for maintenance |
+| **V2X messages** | Low (broadcast by design) | **HIGHEST** — false road hazard = accidents | Time-critical availability |
+| **Cryptographic keys** | **HIGHEST** — compromise = full breach | Keys must not be corrupted | Keys must be available for boot/communication |
+
+**Key insight for automotive:** Integrity and Availability often outweigh Confidentiality due to safety implications (ISO 26262).
+
+### CIA in Cloud Services
+
+| Scenario | Priority |
+|----------|----------|
+| Healthcare records | C > I > A (privacy-first) |
+| Financial transactions | I > A > C (accurate and available) |
+| Safety-critical systems | A > I > C (must be available, then correct) |
+| Military/intelligence | C > I > A (protect secrets) |
+| E-commerce | A > I > C (uptime drives revenue) |
+
+---
+
+## Implementation Patterns
+
+### Confidentiality Controls
+```
+Data at rest  → AES-256 encryption, full disk encryption
+Data in transit → TLS 1.3, IPsec, WireGuard
+Data in use   → Secure enclaves (TEE), homomorphic encryption
+Access        → RBAC/ABAC, MFA, least privilege
+Classification → Label data, apply handling rules per level
+```
+
+### Integrity Controls
+```
+Data integrity     → SHA-256/SHA-3 hashes, HMAC
+Message integrity  → Digital signatures (Ed25519, ECDSA)
+System integrity   → Secure boot, code signing, TPM/HSM attestation
+File integrity     → AIDE, Tripwire, dm-verity
+Database integrity → Constraints, triggers, audit trails
+Supply chain       → SBOM, reproducible builds, signed artifacts
+```
+
+### Availability Controls
+```
+Hardware      → Redundancy (RAID, dual power, N+1), geographic distribution
+Network       → Load balancing, CDN, DDoS mitigation, redundant paths
+Application   → Auto-scaling, health checks, circuit breakers, graceful degradation
+Data          → Backups (3-2-1 rule), replication, point-in-time recovery
+Process       → Disaster recovery plans, RTO/RPO targets, failover testing
+```
+
+---
+
+## Key Metrics
+
+| Property | Metric | Example Target |
+|----------|--------|---------------|
+| Confidentiality | Data breach incidents | 0 per year |
+| Confidentiality | Unauthorized access attempts blocked | > 99.9% |
+| Integrity | Data corruption events detected | 0 undetected |
+| Integrity | File integrity monitoring alerts investigated | 100% within 1 hour |
+| Availability | Uptime (SLA) | 99.99% (52 min downtime/year) |
+| Availability | RTO (Recovery Time Objective) | < 4 hours |
+| Availability | RPO (Recovery Point Objective) | < 1 hour |
+
+---
+
+## References
+
+- NIST SP 800-33: Underlying Technical Models for IT Security
+- ISO 27001: Information Security Management (CIA as foundation)
+- Bell & LaPadula (1973): Secure Computer Systems: Mathematical Foundations
+- Biba (1977): Integrity Considerations for Secure Computer Systems
+- Clark & Wilson (1987): A Comparison of Commercial and Military Security Policies
+- Parkerian Hexad: Donn Parker, "Fighting Computer Crime" (1998)

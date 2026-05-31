@@ -1,65 +1,235 @@
 # Secure Software Development Lifecycle (SSDLC)
 
-## Importance of Secure SDLC
+## Why Shift Left?
 
-**Challenges with Traditional SDLC:**
-- **Late Security Testing:** Security assessments were introduced late in the Software Development Life Cycle (SDLC), leading to the identification of bugs, flaws, and vulnerabilities during later stages.
-- **Higher Costs and Delays:** Fixing issues late in the lifecycle is significantly more expensive and time-consuming. Often, vulnerabilities were only discovered by end-users post-deployment.
+Cost of fixing vulnerabilities increases exponentially the later they're found:
 
-**Benefits of Secure SDLC:**
-- **Early Vulnerability Detection:** Integrating security at every stage allows for the early discovery and mitigation of vulnerabilities, drastically reducing business risks.
-- **Cost Efficiency:**
-  - Fixing bugs during implementation is six times cheaper than during design.
-  - Identifying flaws in testing is 15 times less costly.
-  - Addressing issues in maintenance and operations can be up to 100 times more expensive.
+```
+Phase:        Requirements → Design → Implementation → Testing → Production
+Cost Factor:       1×          5×          10×            20×        100×
+```
 
-  *(Source: Systems and Sciences Institute at IBM)*
+Integrating security at every phase catches issues early, reduces business risk, and avoids costly rework.
 
-**Implementation Strategies:**
-- **Design Phase:** Conduct architecture analysis to embed security from the outset.
-- **Development Stage:** Perform code reviews and use automated scanners to identify potential vulnerabilities.
-- **Pre-Deployment:** Execute security assessments, including penetration testing, to ensure robustness before going live.
+---
 
-**Comparison of Methodologies:**
-- **Waterfall Model:** Security testing occurs at the end, requiring extensive revisions if vulnerabilities like SQL injections are found.
-- **Agile Model:** Adopts a "security by design" approach, allowing for ongoing discussions and preventative measures, minimizing the need for costly revisions.
+## SSDLC vs Traditional SDLC
 
-**Summary:**
-- **Enhanced Security and Quality:** Continuous security integration improves overall software quality.
-- **Increased Awareness:** Educating all stakeholders on security best practices for each SDLC phase.
-- **Risk Reduction:** Early flaw detection prevents hacks, disruptions, and protects business reputation.
-- **Cost and Time Savings:** Addressing vulnerabilities early reduces development costs and accelerates delivery.
-- **Business Protection:** Mitigates risks related to financial losses, brand damage, and potential fines.
+| Traditional SDLC | Secure SDLC |
+|------------------|-------------|
+| Security testing at the end | Security integrated at every phase |
+| Security team as gatekeepers | Security as shared responsibility |
+| Penetration test before release | Continuous security activities |
+| Compliance-driven | Risk-driven |
+| Fixes are expensive patches | Fixes are design decisions |
 
-Implementing a Secure SDLC ensures that security is not an afterthought but a foundational aspect of software development, leading to more reliable, secure, and cost-effective outcomes.
+---
 
+## Phase-by-Phase Security Activities
 
+### 1. Requirements & Planning
+| Activity | Description | Tools/Methods |
+|----------|-------------|---------------|
+| Security requirements | Define security/privacy requirements alongside functional ones | OWASP ASVS, abuse cases |
+| Compliance mapping | Identify regulatory requirements (GDPR, ISO 21434, UN R155) | Compliance matrix |
+| Risk assessment | Initial risk classification of the project | FAIR, qualitative matrix |
+| Data classification | Identify sensitive data and handling requirements | Data flow mapping |
 
+**Key outputs:** Security requirements document, abuse cases, data classification, compliance checklist
 
-## Understanding Security Posture
+### 2. Architecture & Design
+| Activity | Description | Tools/Methods |
+|----------|-------------|---------------|
+| Threat modelling | STRIDE/PASTA analysis of architecture | Microsoft TMT, OWASP Threat Dragon |
+| Secure design patterns | Apply security patterns (defense-in-depth, least privilege, fail-secure) | Design review checklist |
+| Architecture review | Security-focused review of design decisions | SARA (Software Architecture Review and Assessment) |
+| Crypto selection | Choose appropriate algorithms, key lengths, protocols | NIST guidelines, BSI recommendations |
 
-**Establishing a Strong Security Foundation:**
-- **Gap Analysis:** Assess existing security activities and policies to identify strengths and weaknesses. Ensure policies (what the team does) align with security procedures (how they execute those policies).
-- **Software Security Initiatives (SSI):** Set realistic, measurable security goals such as Secure Coding Standards and data handling playbooks. Track progress using project management tools.
-- **Formalize Security Processes:** Integrate security activities into your SSI. Allow an operational period for engineers to adapt and provide feedback before enforcing new standards.
-- **Training and Tools:** Invest in security training for engineers and provide the necessary tools. Ensure teams are educated about new processes and tools before implementation.
+**Key outputs:** Threat model, architecture security review report, design decisions log
 
-### Secure SDLC Processes
+### 3. Implementation
+| Activity | Description | Tools/Methods |
+|----------|-------------|---------------|
+| Secure coding standards | Language-specific secure coding guidelines | CERT C/C++, OWASP Secure Coding |
+| SAST (Static Analysis) | Automated source code scanning | SonarQube, Semgrep, CodeQL, Coverity |
+| Code review | Security-focused peer review | Pull request review, Crucible |
+| SCA (Software Composition Analysis) | Check dependencies for known vulns | Snyk, Dependabot, OWASP Dep-Check |
+| Secret scanning | Detect hardcoded credentials/keys | GitLeaks, TruffleHog |
 
-**Integrating Security into the Software Development Life Cycle (SDLC):**
-- **Risk Assessment:** Identify security requirements early during the planning and requirements stages to promote a security-by-design approach. For example, restrict user permissions to prevent unauthorized actions.
-- **Threat Modelling:** Analyze potential threats during the design phase to determine necessary safeguards. Focus on preventing unwanted behaviors, such as verifying user requests for account information.
-- **Code Scanning and Review:** Conduct manual or automated code reviews using Static and Dynamic Security Testing tools during development to identify and fix vulnerabilities.
-- **Security Assessments:** Perform penetration testing and vulnerability assessments during the Operations & Maintenance phase to uncover and validate potential exploits.
+**Key outputs:** Clean SAST/SCA reports, reviewed code, SBOM (Software Bill of Materials)
 
-**Implementation Methodologies:**
-- Apply structured approaches to incorporate risk assessment, threat modelling, code scanning, and security testing into your SDLC. This ensures consistent and effective security practices throughout the development process.
+### 4. Testing & Verification
+| Activity | Description | Tools/Methods |
+|----------|-------------|---------------|
+| DAST (Dynamic Analysis) | Test running application | Burp Suite, OWASP ZAP, Nuclei |
+| Penetration testing | Manual security testing by experts | Internal team or third party |
+| Fuzzing | Input mutation testing for crashes/vulns | AFL++, libFuzzer, Peach |
+| Security regression tests | Automated tests for previously found vulns | CI test suite |
+| IAST (Interactive Analysis) | Instrument running app during QA testing | Contrast Security |
 
-### Summary
+**Key outputs:** Pentest report, fuzz results, security test pass/fail gate
 
-- **Proactive Security Integration:** Embedding security at every SDLC stage enhances software quality and reduces vulnerabilities.
-- **Early Detection and Cost Savings:** Identifying and addressing security issues early lowers fixing costs and accelerates development.
-- **Enhanced Awareness and Risk Mitigation:** Educating stakeholders and continuously monitoring security reduces business risks and protects the organization’s reputation.
-- **Comprehensive Protection:** A Secure SDLC prevents financial losses, brand damage, and compliance-related fines by ensuring robust security measures are in place from the start.
+### 5. Release & Deployment
+| Activity | Description | Tools/Methods |
+|----------|-------------|---------------|
+| Security gate review | Final go/no-go based on security criteria | Sign-off checklist |
+| Container/image scanning | Scan deployment artifacts | Trivy, Grype |
+| Configuration hardening | Validate production configs against baseline | CIS Benchmarks, SCAP |
+| SBOM generation | Generate and publish software bill of materials | CycloneDX, SPDX |
 
-Implementing these practices ensures that security is a fundamental aspect of software development, leading to more reliable, secure, and cost-effective outcomes.
+**Key outputs:** Release security sign-off, deployment hardening report, published SBOM
+
+### 6. Operations & Maintenance
+| Activity | Description | Tools/Methods |
+|----------|-------------|---------------|
+| Vulnerability monitoring | Continuous scanning + CVE monitoring | Qualys, Nessus, CISA KEV |
+| Incident response | Detect and respond to security events | SIEM, EDR, IR playbooks |
+| Patch management | Timely application of security updates | Automated patching pipelines |
+| Security monitoring | Runtime protection and anomaly detection | RASP, WAF, IDS/IPS |
+| Post-incident review | Feed lessons back into requirements | Blameless postmortems |
+
+**Key outputs:** Vulnerability reports, incident reports, updated threat models
+
+---
+
+## DevSecOps Pipeline Integration
+
+```
+┌─────────┐   ┌─────────┐   ┌─────────┐   ┌─────────┐   ┌─────────┐   ┌─────────┐
+│  Code   │──→│  Build  │──→│  Test   │──→│ Release │──→│ Deploy  │──→│ Monitor │
+└────┬────┘   └────┬────┘   └────┬────┘   └────┬────┘   └────┬────┘   └────┬────┘
+     │              │              │              │              │              │
+  Pre-commit     SAST           DAST          Sign-off      Image scan     SIEM
+  Lint + Secrets  SCA           Pentest       SBOM          IaC scan       EDR
+  Code review     Build scan    Fuzz          Approval      Hardening      WAF
+                  SBOM gen      IAST                        Config audit   Alerting
+```
+
+### Quality Gates (Break the Build)
+
+| Gate | Criteria | Action on Failure |
+|------|----------|-------------------|
+| Pre-commit | No secrets, passes linter | Block commit |
+| Build | No critical/high SAST findings, no critical SCA vulns | Fail pipeline |
+| Test | Pentest findings ≤ Medium, fuzz coverage met | Block release |
+| Release | Security sign-off, SBOM complete | Hold deployment |
+| Deploy | No critical image vulns, hardening baseline met | Rollback |
+
+---
+
+## Maturity Models
+
+### OWASP SAMM (Software Assurance Maturity Model)
+
+Five business functions, each with three security practices:
+
+| Business Function | Security Practices |
+|------------------|--------------------|
+| **Governance** | Strategy & Metrics, Policy & Compliance, Education & Guidance |
+| **Design** | Threat Assessment, Security Requirements, Security Architecture |
+| **Implementation** | Secure Build, Secure Deployment, Defect Management |
+| **Verification** | Architecture Assessment, Requirements-driven Testing, Security Testing |
+| **Operations** | Incident Management, Environment Management, Operational Management |
+
+Each practice scored 0–3 maturity level. Enables roadmap planning and benchmarking.
+
+### BSIMM (Building Security In Maturity Model)
+- Observation-based (what companies actually do vs. what they should do)
+- 122 activities across 12 practices
+- Useful for benchmarking against industry peers
+
+### Microsoft SDL
+- 12 practices from training to response
+- Mandatory for all Microsoft products since 2004
+- SDL for Agile adapts practices to sprint cycles
+
+---
+
+## Automotive SSDLC (ISO/SAE 21434 Alignment)
+
+The automotive V-model integrates security at each level:
+
+```
+Requirements ──────────────────────────────── Validation
+     │                                              ▲
+     ▼                                              │
+  Architecture ────────────────────────── Integration Testing
+     │                                              ▲
+     ▼                                              │
+  Detailed Design ──────────────── Component Testing
+     │                                              ▲
+     ▼                                              │
+  Implementation ─── Unit Testing ──────────────────┘
+
+Security activities map to EACH level:
+- Requirements:   TARA, security goals, cybersecurity concept
+- Architecture:   Secure design, HSM integration, network segmentation
+- Detailed Design: Crypto protocols, access control, secure boot chain
+- Implementation:  CERT C, MISRA, SAST, SCA
+- Unit Testing:    Security unit tests, negative tests
+- Integration:     Protocol fuzzing, interface testing
+- Validation:      Penetration testing, attack simulation
+```
+
+### Cybersecurity Case (ISO/SAE 21434)
+The work product that demonstrates adequate cybersecurity:
+- Cybersecurity plan
+- TARA results
+- Cybersecurity goals and requirements
+- Verification and validation evidence
+- Residual risk assessment and acceptance
+
+---
+
+## SBOM (Software Bill of Materials)
+
+### Why SBOM Matters
+- Identifies all components (open-source, commercial, proprietary)
+- Enables rapid response when new CVEs affect dependencies
+- Required by regulations (US Executive Order 14028, UN R155)
+- Supports supply chain security
+
+### Formats
+| Format | Standard Body | Use Case |
+|--------|--------------|----------|
+| **CycloneDX** | OWASP | Lightweight, security-focused |
+| **SPDX** | Linux Foundation | Comprehensive, license-focused |
+| **SWID** | ISO/IEC 19770-2 | Software identification tags |
+
+### SBOM in CI/CD
+```bash
+# Generate CycloneDX SBOM from Python project
+cyclonedx-py requirements requirements.txt -o sbom.json
+
+# Generate from container image
+syft alpine:latest -o cyclonedx-json > sbom.json
+
+# Scan SBOM against vulnerability database
+grype sbom:sbom.json
+```
+
+---
+
+## Metrics
+
+| Metric | Description | Target |
+|--------|-------------|--------|
+| **Defect Density** | Security bugs per 1000 LOC | Trending down |
+| **Mean Time to Fix** | Average time from discovery to patch | < 7 days (critical) |
+| **Security Gate Pass Rate** | % of builds passing security gates | > 85% |
+| **Vulnerability Escape Rate** | % of vulns found in production vs. earlier | < 10% |
+| **SBOM Coverage** | % of products with current SBOM | 100% |
+| **Training Coverage** | % of developers with security training | > 90% |
+| **Threat Model Coverage** | % of components with current threat model | > 80% |
+
+---
+
+## References
+
+- OWASP SAMM: https://owaspsamm.org/
+- BSIMM: https://www.bsimm.com/
+- Microsoft SDL: https://www.microsoft.com/en-us/securityengineering/sdl
+- NIST SSDF (Secure Software Development Framework): https://csrc.nist.gov/Projects/ssdf
+- ISO/SAE 21434: Road Vehicles — Cybersecurity Engineering
+- OWASP ASVS: https://owasp.org/www-project-application-security-verification-standard/
+- CycloneDX: https://cyclonedx.org/
