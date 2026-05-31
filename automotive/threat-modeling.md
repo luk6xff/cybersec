@@ -1,2 +1,0 @@
-## Attack Surfaces
-When assessing a vehicle's vulnerabilities, imagine yourself as a malicious spy seeking to exploit weaknesses. Evaluate the perimeter and surroundings, focusing on how data enters the vehicle via various communication channels. Ask questions about received signals, physical access points, and interior features such as audio inputs, diagnostic ports, and dashboard capabilities. Be thorough in identifying potential attack surfaces.
